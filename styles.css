@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -5,15 +7,67 @@
 }
 
 body {
-    background-color: #dda4bc;
-    /* background-color: #a4ddae; */
+    /* background-color: #dda4bc;
+    background-color: #00000027; */
+    background-image: url(/assets/catfundo.png);
+    background-repeat: no-repeat;
+    background-size: cover;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     min-height: 100vh;
+    font-family: "Bungee Spice", sans-serif;
 }
 
 canvas {
     background-color: #000000; 
+    border-radius: 10px;
 }
+
+.pontuacao {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.8rem;
+}
+    .pontuacao-valor {
+        font-weight: 700;
+        font-size: 4.5rem;
+        display: block;
+        margin-top: -10px;
+    }
+
+    .menu {
+        position: absolute;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+ 
+        border-radius: 10px;
+    }
+
+    .voce-perdeu {
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 3rem;
+        color: white;
+        margin-top: 20px;
+    }
+
+    .pontuacao-final {
+        font-weight: 500;
+        font-size: 1.5rem;
+        color: white;
+    }
+
+    .botao-jogar {
+        border-radius: 13px;
+        border: none;
+        padding: 15px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 20px;
+    }
