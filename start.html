@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="start.css">
+</head>
+<body>
+    <div class="titulo">
+        <h5>Bem-vindo(a) ao jogo da Cobrinha!</h1>
+    </div>
+
+
+    <div class="div-menu">
+        <button type="button" class="como-jogar" data-bs-toggle="modal" data-bs-target="#exampleModal"><span>COMO JOGAR</span></button>
+        <a class="iniciar-jogo" href="index.html"><span>INICIAR</span></a>
+    </div> 
+    
+    <!-- Vertically centered modal -->
+    <div class="modal-dialog modal-dialog-centered">
+ 
+    </div>
+ 
+  
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-infos">
+                <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel"><span>REGRAS</span></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li>
+                            <p>Use as teclas A W S D ou as setas do teclado para se movimentar</p>
+                        </li>
+                        <li class="formas-de-morrer">Formas de morrer:</li>
+                        <li>Enconstar nas bordas do campo da cobrinha</li>
+                        <li>Encostar a cobrinha em seu próprio corpo</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+
+</body>
+</html>
