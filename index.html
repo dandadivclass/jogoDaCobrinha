@@ -8,13 +8,45 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    <div class="pontuacao">Pontuação: <span class="pontuacao-valor">00</span></div>
-    <div class="menu">
-        <span class="voce-perdeu">Você perdeu</span>
-        <span class="pontuacao-final">Pontuação: <span>00</span></span>
+    <section class="canvas-ranking">
+        
+        <div class="ranking-container">
+            <p class="ranking-titulo">RANKING</p>
+            <label for="Nome">Digite seu nome:</label>
+            <input class="input-jogador" type="text" name="Nome" id="Nome">
+            <div class="div-pontuacao-ranking">
+                <img src="/assets/moedaRanking.png" alt="">
+                <p>Nome jogador:</p>
+                <p>450</p>
+            </div>
+            <div class="div-pontuacao-ranking">
+                <img src="/assets/moedaRankingPrata.png" alt="">
+                <p>Nome jogador:</p>
+                <p class="pontos-ranking">450</p>
+            </div>
+            <div class="div-pontuacao-ranking">
+                <img src="/assets/moedaRankingCobre.png" alt="">
+                <p>Nome jogador:</p>
+                <p>450</p>
+            </div>
+        </div>
 
-        <button class="botao-jogar">Jogar Novamente</button>
-    </div>
-    <canvas width="600" height="600"></canvas>
+        <section class="pontuacao-canvas">
+            <div class="pontuacao">Pontuação: <span class="pontuacao-valor">00</span></div>
+            <div class="menu">
+                <span class="voce-perdeu">Você perdeu</span>
+                <span class="pontuacao-final">Pontuação: <span>00</span></span>
+        
+                <button class="botao-jogar"><span>JOGAR NOVAMENTE</span></button>
+                <a class="sair-jogo" href="start.html">SAIR</a>
+            </div>
+    
+            <canvas width="600" height="600"></canvas>
+        </section>
+        
+
+
+    </section>
+
 </body>
 </html>
