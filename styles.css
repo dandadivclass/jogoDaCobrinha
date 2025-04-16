@@ -7,22 +7,93 @@
 }
 
 body {
-    /* background-color: #dda4bc;
-    background-color: #00000027; */
-    background-image: url(/assets/catfundo.png);
-    background-repeat: no-repeat;
+    background-image:
+        linear-gradient(rgba(22, 25, 66, 0.6), rgba(0, 0, 0, 0.4)),  
+        url(/assets/cenario3.jpeg);    background-repeat: no-repeat;
     background-size: cover;
+    background-position: bottom;
+    min-height: 100vh;
+    font-family: "Bungee Spice", sans-serif;
+    margin-top: 90px;
+    overflow: hidden;
+}
+
+.canvas-ranking {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 110px;
+    margin-right: 320px;
+}
+
+.pontuacao-canvas {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    min-height: 100vh;
-    font-family: "Bungee Spice", sans-serif;
 }
+
+.ranking-container {
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    margin-top: 120px;
+    height: 30%;
+}
+
+    .ranking-titulo {
+        font-size: 40px;
+        background: linear-gradient(#eac5ff, #e1adff, #fb87ff);
+        -webkit-background-clip: text;
+        color: transparent;
+        margin-bottom: 10px;
+    }
+    .ranking-container label {
+        font-size: 17px;
+        background: linear-gradient(#dfd8ff, #d2c8ff, #f2efff);
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+    .input-jogador {
+        border: 0;
+        padding: 10px;
+        border-radius: 10px;
+        margin: 8px 0px;
+    }
+        input[type=text]:focus {
+            border: none;
+        }
+
+    .div-pontuacao-ranking {
+        display: flex;
+        gap: 20px;
+        margin: 25px 0;
+        font-size: 23px;
+        border-radius: 10px;
+        padding: 9px;
+        height: 50%;
+        background-image: linear-gradient(to bottom right, rgba(255, 255, 255, 0), rgba(132, 0, 255, 0.459));
+    }
+        .div-pontuacao-ranking img {
+            width: 30px;
+            height: 30px;
+        }
+        .div-pontuacao-ranking p {
+            background: linear-gradient(#ffd000, #ffc31c, #ffeb38);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
 
 canvas {
     background-color: #000000; 
-    border-radius: 10px;
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)),  
+        url(/assets/canvasBack2.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .pontuacao {
@@ -30,6 +101,9 @@ canvas {
     flex-direction: column;
     align-items: center;
     font-size: 1.8rem;
+    background: linear-gradient(#ffd000, #ffc31c, #ffeb38);
+    -webkit-background-clip: text;
+    color: transparent;
 }
     .pontuacao-valor {
         font-weight: 700;
@@ -44,30 +118,53 @@ canvas {
         flex-direction: column;
         align-items: center;
         justify-content: center;
- 
+        padding: 20px;
         border-radius: 10px;
     }
 
     .voce-perdeu {
         text-transform: uppercase;
         font-weight: 700;
-        font-size: 3rem;
-        color: white;
-        margin-top: 20px;
+        font-size: 3.4rem;
+        background: linear-gradient(#ffffff, #ffffff, #ffffff);
+        -webkit-background-clip: text;
+        color: transparent;
+        margin-top: 50px;
+        margin-bottom: 10px;
     }
 
     .pontuacao-final {
         font-weight: 500;
-        font-size: 1.5rem;
-        color: white;
+        font-size: 1.7rem;
+        margin-bottom: 20px;
+        background: linear-gradient(#ffffff, #ffffff, #ffffff);
+        -webkit-background-clip: text;
+        color: transparent;
     }
 
     .botao-jogar {
         border-radius: 13px;
         border: none;
         padding: 15px;
-        font-size: 1rem;
+        font-size: 0.9rem;
         font-weight: 600;
         cursor: pointer;
         margin-top: 20px;
+        background: linear-gradient(#ffd000, #ffc31c, #ffeb38);
+        font-family: "Bungee Spice", sans-serif;
     }
+        .botao-jogar span{
+            background: linear-gradient(#280042, #24025a, #0d0025);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+    .sair-jogo {
+        text-decoration: none;
+        padding: 20px;
+        margin-top: 10px;
+        background: linear-gradient(#ffd000, #ffc31c, #ffeb38);
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+
