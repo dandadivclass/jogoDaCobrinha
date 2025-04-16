@@ -25,35 +25,129 @@ const posicaoAleatoriaComida = () => {
     return Math.round(numero / 30) * 30; //gerando numeros multiplos de 30
 };
 
+const posicaoAleatoriaObstaculo = () => {
+    const numero = numeroAleatorio(0, canvas.width - tamanhoCobrinha);
+    return Math.round(numero / 35) * 30;  
+};
+
+const posicaoAleatoriaPocoes= () => {
+    const numero = numeroAleatorio(0, canvas.width - tamanhoCobrinha);
+    return Math.round(numero / 40) * 30;  
+};
+
 const comida = {
     x: posicaoAleatoriaComida(), 
     y: posicaoAleatoriaComida(), 
     color: "white"
 };
 
+const obstaculo = {
+    x: posicaoAleatoriaObstaculo(), 
+    y: posicaoAleatoriaObstaculo(), 
+    color: "white"
+};
+
+const pocao = {
+    x: posicaoAleatoriaPocoes(),
+    y: posicaoAleatoriaPocoes()
+}
+
 let direcao, jogoLoop;
 
 const desenhandoCobrinha = () => {
-    contexto.fillStyle = '#7be0ae';
-
-    //desenhando a cobra com base na posicao do array de objetos e definindo sua largura e altura como 30
-    coordenadasCriarCobrinha.forEach((posicao, index) =>  {
-        //quando a cobra chegar na ultima coordenada em tamanho, a posição muda de cor
-        if(index == coordenadasCriarCobrinha.length - 1){
-            contexto.fillStyle = '#459db8'
-        }
-        contexto.fillRect(posicao.x, posicao.y, tamanhoCobrinha, tamanhoCobrinha);
-    })
+    coordenadasCriarCobrinha.forEach((parte) => {
+        contexto.fillStyle = corTemporariaCobra || corOriginalCobra;
+        contexto.fillRect(parte.x, parte.y, tamanhoCobrinha, tamanhoCobrinha);
+    });
 }
 
 const desenhandoComida = () => {
-     const comidaImagem = new Image();
-     comidaImagem.src='./assets/peixeComida.png';
-     comidaImagem.onload = function() {
-        contexto.drawImage(comidaImagem, comida.x, comida.y, tamanhoCobrinha, tamanhoCobrinha)
-    }
+    const comidaImagem = new Image();
+    comidaImagem.src='./assets/moedaDourada.png';
+    contexto.drawImage(comidaImagem, comida.x, comida.y, 30, 30)
+
+    // contexto.fillStyle = comida.color;
+    // contexto.fillRect(comida.x, comida.y, tamanhoCobrinha, tamanhoCobrinha);
 }
 
+const desenhandoObstaculo = () => {
+    const obstaculoImagem = new Image();
+
+    obstaculoImagem.src='./assets/espada2.png';
+
+    
+    contexto.drawImage(obstaculoImagem, obstaculo.x, obstaculo.y, 30, 30)
+    
+}
+
+let pocaoVermelha = '/assets/pocaoV.png';
+let pocaoRoxa = '/assets/pocaoR.png';
+let pocaoAmarela = '/assets/pocaoAmarela.png';
+let pocaoVerde = '/assets/pocaoVD.png';
+
+let corOriginalCobra = '#FFFFFF'; 
+let corTemporariaCobra = null;
+let tempoCorTemporaria = 0;
+const tempoMaxCorTemporaria = 80; // 
+
+const tomandoPocao = () => {
+    let pocaoImagem = new Image();
+    let tipoPocao = null;
+
+    if(parseInt(pontuacaoAtual.innerText) >= 30 && parseInt(pontuacaoAtual.innerText) <= 40){
+        pocaoImagem.src = pocaoVermelha;
+        tipoPocao = 'vermelha';
+    }else if(parseInt(pontuacaoAtual.innerText) >= 40 && parseInt(pontuacaoAtual.innerText) <= 70){
+        pocaoImagem.src = pocaoRoxa;
+        tipoPocao = 'roxa';
+    }else if(parseInt(pontuacaoAtual.innerText) >= 50 && parseInt(pontuacaoAtual.innerText) <= 110){
+        pocaoImagem.src = pocaoAmarela;
+        tipoPocao = 'amarela';
+    }else if(parseInt(pontuacaoAtual.innerText) >= 60 && parseInt(pontuacaoAtual.innerText) <= 170){
+        pocaoImagem.src = pocaoVerde;
+        tipoPocao = 'verde';
+    }
+
+    contexto.drawImage(pocaoImagem, pocao.x, pocao.y, 30, 30);
+
+    const cabecaCobrinha = coordenadasCriarCobrinha[coordenadasCriarCobrinha.length - 1];
+
+    if(cabecaCobrinha.x == pocao.x && cabecaCobrinha.y == pocao.y && tipoPocao === 'vermelha'){
+        corTemporariaCobra = '#B80C09';
+        tempoCorTemporaria = tempoMaxCorTemporaria;
+        
+        pocao.x = posicaoAleatoriaPocoes();
+        pocao.y = posicaoAleatoriaPocoes();
+    }else if (cabecaCobrinha.x == pocao.x && cabecaCobrinha.y == pocao.y && tipoPocao === 'roxa') {
+        corTemporariaCobra = '#5B1865';
+        tempoCorTemporaria = tempoMaxCorTemporaria;
+
+        pocao.x = posicaoAleatoriaPocoes();
+        pocao.y = posicaoAleatoriaPocoes();
+    }else if (cabecaCobrinha.x == pocao.x && cabecaCobrinha.y == pocao.y && tipoPocao === 'amarela') {
+        corTemporariaCobra = '#F4FF52';
+        tempoCorTemporaria = tempoMaxCorTemporaria;
+
+        pocao.x = posicaoAleatoriaPocoes();
+        pocao.y = posicaoAleatoriaPocoes();
+    }else if (cabecaCobrinha.x == pocao.x && cabecaCobrinha.y == pocao.y && tipoPocao === 'verde') {
+        corTemporariaCobra = '#A5BE00';
+        tempoCorTemporaria = tempoMaxCorTemporaria;
+
+        pocao.x = posicaoAleatoriaPocoes();
+        pocao.y = posicaoAleatoriaPocoes();
+    }
+
+     desenhandoCobrinha();
+
+     if (tempoCorTemporaria > 0) {
+        tempoCorTemporaria--;
+        if (tempoCorTemporaria === 0) {
+            corTemporariaCobra = null;  
+        }
+    }
+}
+ 
 const moverCobrinha = () => {
     if(!direcao) return;
 
@@ -104,10 +198,32 @@ const cobrinhaComeu = () => {
         atribuirPontuacao();
         audio.play();
 
-        comida.x = posicaoAleatoriaComida(), 
-        comida.y = posicaoAleatoriaComida();
+        let x = posicaoAleatoriaComida();
+        let y = posicaoAleatoriaComida();
+
+        while(coordenadasCriarCobrinha.find((posicaoCobra) => posicaoCobra.x == x && posicaoCobra.y == y)) {
+            x = posicaoAleatoriaComida();
+            y = posicaoAleatoriaComida();
+        }
+
+        comida.y = y;
+        comida.x = x;
+
+        obstaculo.x = posicaoAleatoriaComida();
+        obstaculo.y = posicaoAleatoriaComida();
+
+    }
+
+}
+
+const cobrinhaBateuObstaculo = () => {
+    const cabecaCobrinha = coordenadasCriarCobrinha[coordenadasCriarCobrinha.length - 1];
+    
+    if(cabecaCobrinha.x == obstaculo.x && cabecaCobrinha.y == obstaculo.y){
+        vocePerdeu();
     }
 }
+ 
 
 const colisao = () => {
     const cabecaCobrinha = coordenadasCriarCobrinha[coordenadasCriarCobrinha.length - 1];
@@ -124,32 +240,45 @@ const colisao = () => {
     }
 }
 
+let jogoAtivo = true;
+
 const vocePerdeu = () => {
+    jogoAtivo = false;
     direcao = undefined;
     menu.style.display = 'flex';
     pontuacaoFinal.innerText = pontuacaoAtual.innerText;
+    corTemporariaCobra = null;
+    corOriginalCobra = '#FFFFFF';
+    
 }
 
 const jogo = () => {
-    //limpando o timeOut anterior 
+    if (!jogoAtivo) return;
+
     clearInterval(jogoLoop);
 
     contexto.clearRect(0, 0, 600, 600);
     // desenhandoGrid();
     desenhandoComida();
     desenhandoCobrinha();
+    desenhandoObstaculo();
+    tomandoPocao();
+    cobrinhaBateuObstaculo();
     moverCobrinha();
     cobrinhaComeu();
     colisao();
 
     jogoLoop = setTimeout(() => {
         jogo();
-    }, 150)
+    }, 120)
+    
 }
 
 jogo();
 
 document.addEventListener('keydown', (event) => {
+    if (!jogoAtivo) return;
+
     if((event.key == 'ArrowRight' && direcao != 'esquerda') || (event.key == 'd' && direcao != 'esquerda')){
         direcao = 'direita';
     }
@@ -165,7 +294,9 @@ document.addEventListener('keydown', (event) => {
 })
  
 botaoJogarNovamente.addEventListener('click', () => {
+    jogoAtivo = true;
     pontuacaoAtual.innerText = '00';
     menu.style.display = 'none';
     coordenadasCriarCobrinha = [{x: 270, y: 240}];
+    jogo();
 })
