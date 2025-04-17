@@ -261,16 +261,16 @@ document.addEventListener('keydown', (event) => {
 
     if (document.activeElement.tagName === 'INPUT') return;
 
-    if ((event.key == 'ArrowRight') && direcao != 'esquerda') {
+    if ((event.key == 'ArrowRight') || event.key == 'd'  && direcao != 'esquerda') {
         direcaoPendente = 'direita';
     }
-    if ((event.key == 'ArrowLeft') && direcao != 'direita') {
+    if ((event.key == 'ArrowLeft') || event.key == 'a' && direcao != 'direita') {
         direcaoPendente = 'esquerda';
     }
-    if ((event.key == 'ArrowUp') && direcao != 'baixo') {
+    if ((event.key == 'ArrowUp') || event.key == 'w'  && direcao != 'baixo') {
         direcaoPendente = 'cima';
     }
-    if ((event.key == 'ArrowDown') && direcao != 'cima') {
+    if ((event.key == 'ArrowDown') || event.key == 's'  && direcao != 'cima') {
         direcaoPendente = 'baixo';
     }
 });
@@ -366,5 +366,14 @@ botaoJogarNovamente.addEventListener('click', () => {
     pontuacaoAtual.innerText = '00';
     menu.style.display = 'none';
     coordenadasCriarCobrinha = [{x: 270, y: 240}];
+
+    comida.x = posicaoAleatoriaComida();
+    comida.y = posicaoAleatoriaComida();
+
+    obstaculo.x = posicaoAleatoriaObstaculo();
+    obstaculo.y = posicaoAleatoriaObstaculo();
+
     jogo();
+
+
 })
