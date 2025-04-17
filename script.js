@@ -11,6 +11,7 @@ const tamanhoCobrinha = 30;
 let coordenadasCriarCobrinha = [
     {x: 270, y: 0}
 ]
+let velocidade = 120; 
 
 const atribuirPontuacao = () => {
     pontuacaoAtual.innerText = parseInt(pontuacaoAtual.innerText) + 10;
@@ -97,7 +98,7 @@ const tomandoPocao = () => {
     if(parseInt(pontuacaoAtual.innerText) >= 30 && parseInt(pontuacaoAtual.innerText) <= 40){
         pocaoImagem.src = pocaoVermelha;
         tipoPocao = 'vermelha';
-    }else if(parseInt(pontuacaoAtual.innerText) >= 40 && parseInt(pontuacaoAtual.innerText) <= 70){
+    }else if(parseInt(pontuacaoAtual.innerText) >= 60 && parseInt(pontuacaoAtual.innerText) <= 70){
         pocaoImagem.src = pocaoRoxa;
         tipoPocao = 'roxa';
     }else if(parseInt(pontuacaoAtual.innerText) >= 50 && parseInt(pontuacaoAtual.innerText) <= 110){
@@ -115,18 +116,29 @@ const tomandoPocao = () => {
     if(cabecaCobrinha.x == pocao.x && cabecaCobrinha.y == pocao.y && tipoPocao === 'vermelha'){
         corTemporariaCobra = '#B80C09';
         tempoCorTemporaria = tempoMaxCorTemporaria;
-        
+    
         pocao.x = posicaoAleatoriaPocoes();
         pocao.y = posicaoAleatoriaPocoes();
     }else if (cabecaCobrinha.x == pocao.x && cabecaCobrinha.y == pocao.y && tipoPocao === 'roxa') {
         corTemporariaCobra = '#5B1865';
         tempoCorTemporaria = tempoMaxCorTemporaria;
 
+        velocidade = 90;
+        setTimeout(() => {
+            velocidade = 120;
+        }, 5000);
+
         pocao.x = posicaoAleatoriaPocoes();
         pocao.y = posicaoAleatoriaPocoes();
     }else if (cabecaCobrinha.x == pocao.x && cabecaCobrinha.y == pocao.y && tipoPocao === 'amarela') {
         corTemporariaCobra = '#F4FF52';
         tempoCorTemporaria = tempoMaxCorTemporaria;
+
+        velocidade = 150;
+        setTimeout(() => {
+            velocidade = 120;
+        }, 4000);
+
 
         pocao.x = posicaoAleatoriaPocoes();
         pocao.y = posicaoAleatoriaPocoes();
@@ -247,19 +259,22 @@ let direcaoPendente = null;
 document.addEventListener('keydown', (event) => {
     if (!jogoAtivo || direcaoPendente) return;
 
-    if ((event.key == 'ArrowRight' || event.key == 'd') && direcao != 'esquerda') {
+    if (document.activeElement.tagName === 'INPUT') return;
+
+    if ((event.key == 'ArrowRight') && direcao != 'esquerda') {
         direcaoPendente = 'direita';
     }
-    if ((event.key == 'ArrowLeft' || event.key == 'a') && direcao != 'direita') {
+    if ((event.key == 'ArrowLeft') && direcao != 'direita') {
         direcaoPendente = 'esquerda';
     }
-    if ((event.key == 'ArrowUp' || event.key == 'w') && direcao != 'baixo') {
+    if ((event.key == 'ArrowUp') && direcao != 'baixo') {
         direcaoPendente = 'cima';
     }
-    if ((event.key == 'ArrowDown' || event.key == 's') && direcao != 'cima') {
+    if ((event.key == 'ArrowDown') && direcao != 'cima') {
         direcaoPendente = 'baixo';
     }
 });
+
 
 let jogoAtivo = true;
 
@@ -270,8 +285,52 @@ const vocePerdeu = () => {
     pontuacaoFinal.innerText = pontuacaoAtual.innerText;
     corTemporariaCobra = null;
     corOriginalCobra = '#FFFFFF';
-    
+
+    salvarNoRanking();
 }
+
+const inputNome = document.getElementById('Nome');
+const rankingList = document.getElementById('ranking-container');
+
+const atualizarRanking = () => {
+    const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+
+    ranking.sort((a, b) => b.pontos - a.pontos);
+
+    const topRanking = ranking.slice(0, 3);
+
+    rankingList.innerHTML = '';
+
+    topRanking.forEach((item, index) => {
+        const medalha = index === 0
+            ? '/assets/moedaRanking.png'
+            : index === 1
+            ? '/assets/moedaRankingPrata.png'
+            : '/assets/moedaRankingCobre.png';
+
+        rankingList.innerHTML += `
+            <div class="div-pontuacao-ranking">
+                <img src="${medalha}" alt="medalha">
+                <p>${item.nome}</p>
+                <p class="pontos-ranking">${item.pontos}</p>
+            </div>
+        `;
+    });
+};
+
+const salvarNoRanking = () => {
+    const nome = inputNome.value.trim();
+
+    const pontos = parseInt(pontuacaoAtual.innerText);
+
+    const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+    ranking.push({ nome, pontos });
+
+    localStorage.setItem('ranking', JSON.stringify(ranking));
+    atualizarRanking();
+};
+
+atualizarRanking();
 
 const jogo = () => {
     if (!jogoAtivo) return;
@@ -295,9 +354,7 @@ const jogo = () => {
     cobrinhaComeu();
     colisao();
 
-    jogoLoop = setTimeout(() => {
-        jogo();
-    }, 120)
+    jogoLoop = setTimeout(jogo, velocidade);
     
 }
 
