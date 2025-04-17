@@ -43,11 +43,10 @@ const comida = {
     color: "white"
 };
 
-const obstaculo = {
-    x: posicaoAleatoriaObstaculo(), 
-    y: posicaoAleatoriaObstaculo(), 
-    color: "white"
-};
+const obstaculos = [
+    { x: posicaoAleatoriaObstaculo(), y: posicaoAleatoriaObstaculo() }
+];
+
 
 const pocao = {
     x: posicaoAleatoriaPocoes(),
@@ -65,7 +64,7 @@ const desenhandoCobrinha = () => {
 
 const desenhandoComida = () => {
     const comidaImagem = new Image();
-    comidaImagem.src='./assets/moedaDourada.png';
+    comidaImagem.src='../assets/moedaDourada.png';
     contexto.drawImage(comidaImagem, comida.x, comida.y, 30, 30)
 
     // contexto.fillStyle = comida.color;
@@ -74,18 +73,18 @@ const desenhandoComida = () => {
 
 const desenhandoObstaculo = () => {
     const obstaculoImagem = new Image();
+    obstaculoImagem.src = '../assets/espada2.png';
 
-    obstaculoImagem.src='./assets/espada2.png';
+    obstaculos.forEach(obst => {
+        contexto.drawImage(obstaculoImagem, obst.x, obst.y, 30, 30);
+    });
+};
 
-    
-    contexto.drawImage(obstaculoImagem, obstaculo.x, obstaculo.y, 30, 30)
-    
-}
 
-let pocaoVermelha = '/assets/pocaoV.png';
-let pocaoRoxa = '/assets/pocaoR.png';
-let pocaoAmarela = '/assets/pocaoAmarela.png';
-let pocaoVerde = '/assets/pocaoVD.png';
+let pocaoVermelha = '../assets/pocaoV.png';
+let pocaoRoxa = '../assets/pocaoR.png';
+let pocaoAmarela = '../assets/pocaoAmarela.png';
+let pocaoVerde = '../assets/pocaoVD.png';
 
 let corOriginalCobra = '#FFFFFF'; 
 let corTemporariaCobra = null;
@@ -204,9 +203,8 @@ const desenhandoGrid = () => {
 
 const cobrinhaComeu = () => {
     const cabecaCobrinha = coordenadasCriarCobrinha[coordenadasCriarCobrinha.length - 1];
-    
-    //validando se a cabeça da cobra encostou na comida (se estão com a mesma posição no grid tanto horizontalmente quanto verticalmente)
-    if(cabecaCobrinha.x == comida.x && cabecaCobrinha.y == comida.y){
+
+    if (cabecaCobrinha.x == comida.x && cabecaCobrinha.y == comida.y) {
         coordenadasCriarCobrinha.push(cabecaCobrinha);
         atribuirPontuacao();
         audio.play();
@@ -214,28 +212,43 @@ const cobrinhaComeu = () => {
         let x = posicaoAleatoriaComida();
         let y = posicaoAleatoriaComida();
 
-        while(coordenadasCriarCobrinha.find((posicaoCobra) => posicaoCobra.x == x && posicaoCobra.y == y)) {
+        while (
+            coordenadasCriarCobrinha.some(p => p.x == x && p.y == y) ||
+            obstaculos.some(p => p.x == x && p.y == y)
+        ) {
             x = posicaoAleatoriaComida();
             y = posicaoAleatoriaComida();
         }
 
-        comida.y = y;
         comida.x = x;
+        comida.y = y;
 
-        obstaculo.x = posicaoAleatoriaComida();
-        obstaculo.y = posicaoAleatoriaComida();
+        if (obstaculos.length < 4) {
+            let novoX, novoY;
+            do {
+                novoX = posicaoAleatoriaObstaculo();
+                novoY = posicaoAleatoriaObstaculo();
+            } while (
+                coordenadasCriarCobrinha.some(p => p.x == novoX && p.y == novoY) ||
+                (comida.x == novoX && comida.y == novoY) ||
+                obstaculos.some(p => p.x == novoX && p.y == novoY)
+            );
 
+            obstaculos.push({ x: novoX, y: novoY });
+        }
     }
+};
 
-}
+
 
 const cobrinhaBateuObstaculo = () => {
-    const cabecaCobrinha = coordenadasCriarCobrinha[coordenadasCriarCobrinha.length - 1];
-    
-    if(cabecaCobrinha.x == obstaculo.x && cabecaCobrinha.y == obstaculo.y){
+    const cabeca = coordenadasCriarCobrinha[coordenadasCriarCobrinha.length - 1];
+
+    if (obstaculos.some(obst => obst.x === cabeca.x && obst.y === cabeca.y)) {
         vocePerdeu();
     }
-}
+};
+
  
 
 const colisao = () => {
@@ -304,10 +317,10 @@ const atualizarRanking = () => {
 
     topRanking.forEach((item, index) => {
         const medalha = index === 0
-            ? '/assets/moedaRanking.png'
+            ? '../assets/moedaRanking.png'
             : index === 1
-            ? '/assets/moedaRankingPrata.png'
-            : '/assets/moedaRankingCobre.png';
+            ? '../assets/moedaRankingPrata.png'
+            : '../assets/moedaRankingCobre.png';
 
         rankingList.innerHTML += `
             <div class="div-pontuacao-ranking">
@@ -379,8 +392,11 @@ botaoJogarNovamente.addEventListener('click', () => {
     comida.x = posicaoAleatoriaComida();
     comida.y = posicaoAleatoriaComida();
 
-    obstaculo.x = posicaoAleatoriaObstaculo();
-    obstaculo.y = posicaoAleatoriaObstaculo();
+    obstaculos.length = 0;
+    obstaculos.push({
+        x: posicaoAleatoriaObstaculo(),
+        y: posicaoAleatoriaObstaculo()
+    });
 
     jogo();
 
