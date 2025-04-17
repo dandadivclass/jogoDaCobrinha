@@ -5,7 +5,7 @@ const pontuacaoFinal = document.querySelector('.pontuacao-final > span');
 const botaoJogarNovamente = document.querySelector('.botao-jogar');
 
 const contexto = canvas.getContext('2d');
-const audio = new Audio('./assets/audioComeu.mp3')
+const audio = new Audio('../assets/audioComeu.mp3')
 
 const tamanhoCobrinha = 30;
 let coordenadasCriarCobrinha = [
@@ -338,10 +338,15 @@ const salvarNoRanking = () => {
     const pontos = parseInt(pontuacaoAtual.innerText);
 
     const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
-    const existe = ranking.some(item => item.nome === nome);
+    const existe = ranking.find(item => item.nome === nome);
 
-    if(existe) return;
-    ranking.push({ nome, pontos });
+    if (existe) {
+        if (pontos > existe.pontos) {
+            existe.pontos = pontos;
+        }
+    } else {
+        ranking.push({ nome, pontos });
+    }
 
     localStorage.setItem('ranking', JSON.stringify(ranking));
     atualizarRanking();
