@@ -11,6 +11,7 @@ const tamanhoCobrinha = 30;
 let coordenadasCriarCobrinha = [
     {x: 270, y: 0}
 ]
+
 let velocidade = 120; 
 
 const atribuirPontuacao = () => {
@@ -101,10 +102,10 @@ const tomandoPocao = () => {
     }else if(parseInt(pontuacaoAtual.innerText) >= 60 && parseInt(pontuacaoAtual.innerText) <= 70){
         pocaoImagem.src = pocaoRoxa;
         tipoPocao = 'roxa';
-    }else if(parseInt(pontuacaoAtual.innerText) >= 50 && parseInt(pontuacaoAtual.innerText) <= 110){
+    }else if(parseInt(pontuacaoAtual.innerText) >= 80 && parseInt(pontuacaoAtual.innerText) <= 90){
         pocaoImagem.src = pocaoAmarela;
         tipoPocao = 'amarela';
-    }else if(parseInt(pontuacaoAtual.innerText) >= 60 && parseInt(pontuacaoAtual.innerText) <= 170){
+    }else if(parseInt(pontuacaoAtual.innerText) >= 100 && parseInt(pontuacaoAtual.innerText) <= 110){
         pocaoImagem.src = pocaoVerde;
         tipoPocao = 'verde';
     }
@@ -126,7 +127,7 @@ const tomandoPocao = () => {
         velocidade = 90;
         setTimeout(() => {
             velocidade = 120;
-        }, 5000);
+        }, 6000);
 
         pocao.x = posicaoAleatoriaPocoes();
         pocao.y = posicaoAleatoriaPocoes();
@@ -137,7 +138,7 @@ const tomandoPocao = () => {
         velocidade = 150;
         setTimeout(() => {
             velocidade = 120;
-        }, 4000);
+        }, 5000);
 
 
         pocao.x = posicaoAleatoriaPocoes();
@@ -261,16 +262,16 @@ document.addEventListener('keydown', (event) => {
 
     if (document.activeElement.tagName === 'INPUT') return;
 
-    if ((event.key == 'ArrowRight') || event.key == 'd'  && direcao != 'esquerda') {
+    if ((event.key == 'ArrowRight' || event.key == 'd')  && direcao != 'esquerda') {
         direcaoPendente = 'direita';
     }
-    if ((event.key == 'ArrowLeft') || event.key == 'a' && direcao != 'direita') {
+    if ((event.key == 'ArrowLeft' || event.key == 'a') && direcao != 'direita') {
         direcaoPendente = 'esquerda';
     }
-    if ((event.key == 'ArrowUp') || event.key == 'w'  && direcao != 'baixo') {
+    if ((event.key == 'ArrowUp' || event.key == 'w')  && direcao != 'baixo') {
         direcaoPendente = 'cima';
     }
-    if ((event.key == 'ArrowDown') || event.key == 's'  && direcao != 'cima') {
+    if ((event.key == 'ArrowDown' || event.key == 's')  && direcao != 'cima') {
         direcaoPendente = 'baixo';
     }
 });
@@ -324,6 +325,9 @@ const salvarNoRanking = () => {
     const pontos = parseInt(pontuacaoAtual.innerText);
 
     const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+    const existe = ranking.some(item => item.nome === nome);
+
+    if(existe) return;
     ranking.push({ nome, pontos });
 
     localStorage.setItem('ranking', JSON.stringify(ranking));
@@ -331,6 +335,11 @@ const salvarNoRanking = () => {
 };
 
 atualizarRanking();
+
+document.getElementById('limpar-ranking').addEventListener('click', () => {
+    localStorage.removeItem('ranking');
+    atualizarRanking();
+});
 
 const jogo = () => {
     if (!jogoAtivo) return;
