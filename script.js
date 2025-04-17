@@ -240,6 +240,27 @@ const colisao = () => {
     }
 }
 
+
+
+let direcaoPendente = null;
+
+document.addEventListener('keydown', (event) => {
+    if (!jogoAtivo || direcaoPendente) return;
+
+    if ((event.key == 'ArrowRight' || event.key == 'd') && direcao != 'esquerda') {
+        direcaoPendente = 'direita';
+    }
+    if ((event.key == 'ArrowLeft' || event.key == 'a') && direcao != 'direita') {
+        direcaoPendente = 'esquerda';
+    }
+    if ((event.key == 'ArrowUp' || event.key == 'w') && direcao != 'baixo') {
+        direcaoPendente = 'cima';
+    }
+    if ((event.key == 'ArrowDown' || event.key == 's') && direcao != 'cima') {
+        direcaoPendente = 'baixo';
+    }
+});
+
 let jogoAtivo = true;
 
 const vocePerdeu = () => {
@@ -264,6 +285,12 @@ const jogo = () => {
     desenhandoObstaculo();
     tomandoPocao();
     cobrinhaBateuObstaculo();
+
+    if (direcaoPendente) {
+        direcao = direcaoPendente;
+        direcaoPendente = null;
+    }
+    
     moverCobrinha();
     cobrinhaComeu();
     colisao();
@@ -276,22 +303,6 @@ const jogo = () => {
 
 jogo();
 
-document.addEventListener('keydown', (event) => {
-    if (!jogoAtivo) return;
-
-    if((event.key == 'ArrowRight' && direcao != 'esquerda') || (event.key == 'd' && direcao != 'esquerda')){
-        direcao = 'direita';
-    }
-    if((event.key == 'ArrowLeft' && direcao != 'direita') || (event.key == 'a' && direcao != 'direita')){
-        direcao = 'esquerda';
-    }
-    if((event.key == 'ArrowUp' && direcao != 'baixo') || (event.key == 'w' && direcao != 'baixo')){
-        direcao = 'cima';
-    }
-    if((event.key == 'ArrowDown' && direcao != 'cima') || (event.key == 's' && direcao != 'cima')){
-        direcao = 'baixo';
-    }
-})
  
 botaoJogarNovamente.addEventListener('click', () => {
     jogoAtivo = true;
