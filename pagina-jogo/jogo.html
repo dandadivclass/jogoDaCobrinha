@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo Da Cobrinha</title>
+    <link rel="stylesheet" href="jogo.css">
+    <script src="/script.js" defer></script>
+</head>
+<body>
+    <section class="canvas-ranking">
+
+        <div class="div-ranking">
+            <div class="ranking-input">
+                <p class="ranking-titulo">RANKING</p>
+                <label for="nome-jogador">Digite seu nome:</label>
+                <input class="input-jogador" type="text" name="nome-jogador" id="Nome" autocomplete="offw3wz">
+            </div>        
+            <div class="ranking-container" id="ranking-container">
+            </div>
+
+            <button id="limpar-ranking"><span>Limpar Ranking</span></button>
+
+        </div>
+
+        <section class="pontuacao-canvas">
+            <div class="pontuacao">Pontuação: <span class="pontuacao-valor">00</span></div>
+            <div class="menu">
+                <span class="voce-perdeu">Você perdeu</span>
+                <span class="pontuacao-final">Pontuação: <span>00</span></span>
+        
+                <button class="botao-jogar"><span>JOGAR NOVAMENTE</span></button>
+                <a class="sair-jogo" href="../index.html">SAIR</a>
+            </div>
+    
+            <canvas width="600" height="600"></canvas>
+        </section>
+        
+
+
+    </section>
+
+</body>
+</html>
